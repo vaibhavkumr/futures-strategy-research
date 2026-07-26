@@ -1,0 +1,19 @@
+{
+  "accounts": {
+    "r05_conservative": 10000.0,
+    "r05_aggressive": 10000.0,
+    "r10_conservative": 10000.0,
+    "r10_aggressive": 10000.0
+  },
+  "peak": {
+    "r05_conservative": 10000.0,
+    "r05_aggressive": 10000.0,
+    "r10_conservative": 10000.0,
+    "r10_aggressive": 10000.0
+  },
+  "open": null,
+  "fired": [],
+  "day": "2026-07-24",
+  "losses_today": 0,
+  "started": "2026-07-26T16:47:05.214488-04:00"
+}

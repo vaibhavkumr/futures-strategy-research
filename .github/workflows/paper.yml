@@ -1,0 +1,60 @@
+name: TJR paper bot
+
+# Runs the paper trader on GitHub's servers -- free, no credit card, no
+# machine of your own left on. State is committed back to the repo so each
+# run resumes where the last one stopped.
+#
+# Cron is UTC. During EDT (Mar-Nov) ET = UTC-4:
+#   06:00-08:59 UTC = 02:00-04:59 ET  -> London killzone
+#   12:00-14:59 UTC = 08:00-10:59 ET  -> NY morning killzone
+#   17:00-19:59 UTC = 13:00-15:59 ET  -> NY afternoon killzone
+# Weekdays only. ~30 runs/day keeps a private repo inside the free
+# 2,000 minutes/month. A PUBLIC repo has unlimited minutes -- if you make
+# the repo public you can drop these to */5 for finer resolution.
+
+on:
+  schedule:
+    - cron: '*/15 6-8 * * 1-5'
+    - cron: '*/15 12-14 * * 1-5'
+    - cron: '*/15 17-19 * * 1-5'
+  workflow_dispatch:        # lets you trigger a run by hand from the Actions tab
+
+permissions:
+  contents: write           # needed to commit the updated state back
+
+concurrency:
+  group: paper-bot          # never let two runs race on the state file
+  cancel-in-progress: false
+
+jobs:
+  trade:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Install deps
+        run: pip install --quiet pandas numpy yfinance
+
+      - name: Run one check
+        run: python -u -W ignore live_paper.py --once
+
+      - name: Commit state
+        run: |
+          git config user.name  "tjr-paper-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add -A live_paper_state.json live_paper_trades.csv
+          if git diff --staged --quiet; then
+            echo "no change"
+          else
+            git commit -m "paper bot: $(date -u '+%Y-%m-%d %H:%M UTC')"
+            # another run may have pushed while we worked; rebase and retry
+            for i in 1 2 3; do
+              git pull --rebase --autostash && git push && break || sleep 5
+            done
+          fi

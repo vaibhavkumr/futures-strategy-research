@@ -1,0 +1,6 @@
+download/
+av_cache/
+*.pkl
+__pycache__/
+live_paper.out
+universe.pkl
