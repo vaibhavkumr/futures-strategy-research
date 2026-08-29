@@ -1,6 +1,15 @@
+# Market data - large, redownloadable, not source
+binance1s/
+binance/
 download/
-av_cache/
+vid/
+archive_*/
 *.pkl
+*.csv
+*.wav
+*.parquet
+# Runtime state
+apex_state.json
 __pycache__/
-live_paper.out
-universe.pkl
+*.pyc
+install_watchdog.ps1
