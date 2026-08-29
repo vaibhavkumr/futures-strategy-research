@@ -5,6 +5,20 @@ reversal fair-value-gap entry, inside NY killzones) and backtests them so you
 can find out whether the strategy actually makes money **before risking a
 cent.**
 
+## What to read first
+
+This repo is a research log, not a single program - most of the ~150 scripts are
+one-off experiments kept for provenance. If you are looking at it cold:
+
+1. **[RESULTS.md](RESULTS.md)** - the actual findings, including three lookahead
+   bugs found and fixed. One of them (filling entries on the signal bar's own
+   low) was manufacturing about 86% of the apparent profit. That section is the
+   point of the whole project.
+2. **[SWING_RESULTS.md](SWING_RESULTS.md)** - the same treatment for swing setups.
+3. `backtest.py` - the entry point everything else feeds.
+
+Everything else is exploration around those.
+
 ## Reality check (read this)
 - A backtester tells you if an edge *existed in the past*. It is not a promise
   about the future, and "$200/day" is a goal, not a setting.
