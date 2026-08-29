@@ -85,3 +85,9 @@ python backtest.py --csv nq_5m.csv --rr 2.0
 3. If (and only if) the edge holds: paper trade live via broker API.
 4. If paper trading matches the backtest: risk tiny real size (1 MNQ = $2/pt).
 5. Scale only after a long, boring track record.
+
+## Timeline
+
+Written 24 July - 14 August 2026 (283 source files).
+
+Dates come from file modification times on disk, not from commit history - this repository was initialised later, so the commit dates are all from when it was published rather than when the code was written.
